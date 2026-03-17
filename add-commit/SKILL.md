@@ -1,0 +1,140 @@
+---
+name: add-commit
+description: Perform git add and git commit operations with properly formatted commit messages following Conventional Commits specification. Use when you need to stage and commit changes to a Git repository with well-structured commit messages that communicate intent clearly.
+---
+
+# Git Add/Commit Skill
+
+This skill provides guidance for performing git add and git commit operations with properly formatted commit messages following the Conventional Commits specification and best practices.
+
+## When to use
+
+Use this skill when you need to:
+
+- Stage and commit changes to a Git repository
+- Create well-structured commit messages that follow Conventional Commits specification
+- Ensure commit messages communicate the intent and impact of changes clearly
+- Follow best practices for atomic commits and meaningful commit messages
+
+## Conventional Commits Specification
+
+Follow the Conventional Commits 1.0.0 specification for all commit messages. The commit message should be structured as follows:
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### Commit Types
+
+- **feat:** A new feature (corresponds to MINOR in Semantic Versioning)
+- **fix:** A bug fix (corresponds to PATCH in Semantic Versioning)
+- **BREAKING CHANGE:** A commit that introduces a breaking API change (corresponds to MAJOR in Semantic Versioning)
+- **Other types:** build:, chore:, ci:, docs:, style:, refactor:, perf:, test:, revert: (as appropriate)
+
+### Type Guidelines
+
+1. Commits MUST be prefixed with a type, which consists of a noun, `feat`, `fix`, etc., followed by the OPTIONAL scope, OPTIONAL `!`, and REQUIRED terminal colon and space.
+2. The type `feat` MUST be used when a commit adds a new feature to your application or library.
+3. The type `fix` MUST be used when a commit represents a bug fix for your application.
+4. A scope MAY be provided after a type. A scope MUST consist of a noun describing a section of the codebase surrounded by parenthesis, e.g., `fix(parser):`
+5. A description MUST immediately follow the colon and space after the type/scope prefix. The description is a short summary of the code changes.
+
+### Breaking Changes
+
+1. Breaking changes MUST be indicated in the type/scope prefix of a commit with a `!` immediately before the `:`, OR as an entry in the footer.
+2. If included as a footer, a breaking change MUST consist of the uppercase text BREAKING CHANGE, followed by a colon, space, and description.
+3. Example: `feat!: send an email to the customer when a product is shipped`
+
+## Git Commit Best Practices
+
+### Basic Rules
+
+1. **Commit Related Changes**: A commit should be a wrapper for related changes. For example, fixing two different bugs should produce two separate commits. Small commits make it easier for other developers to understand the changes and roll them back if something went wrong.
+
+2. **Commit Often**: Committing often keeps your commits small and helps you commit only related changes. Moreover, it allows you to share your code more frequently with others. That way it's easier for everyone to integrate changes regularly and avoid having merge conflicts.
+
+3. **Don't Commit Half-Done Work**: You should only commit code when a logical component is completed. Split a feature's implementation into logical chunks that can be completed quickly so that you can commit often. If you're tempted to commit just because you need a clean working copy (to check out a branch, pull in changes, etc.) consider using Git's «Stash» feature instead.
+
+4. **Test Your Code Before You Commit**: Resist the temptation to commit something that you «think» is completed. Test it thoroughly to make sure it really is completed and has no side effects (as far as one can tell).
+
+5. **Write Good Commit Messages**: Begin your message with a short summary of your changes (up to 50 characters as a guideline). Separate it from the following body by including a blank line. The body of your message should provide detailed answers to the following questions:
+   - What was the motivation for the change?
+   - How does it differ from the previous implementation?
+     Use the imperative, present tense («change», not «changed» or «changes») to be consistent with generated messages from commands like git merge.
+
+### Formatting Rules
+
+- Capitalized, short **(50 chars or less)** summary
+- More detailed explanatory text, if necessary. **Wrap it to about 72 characters**. In some contexts, the first line is treated as the subject of an email and the rest of the text as the body. The blank line separating the summary from the body is critical (unless you omit the body entirely); tools like rebase can get confused if you run the two together.
+- **Always leave the second line blank.**
+- Write your commit message in the imperative: "Fix bug" and not "Fixed bug" or "Fixes bug." This convention matches up with commit messages generated by commands like git merge and git revert.
+- Further paragraphs come after blank lines.
+  - Bullet points are okay, too
+  - Typically a hyphen or asterisk is used for the bullet, preceded by a single space, with blank lines in between, but conventions vary here
+  - Use a hanging indent
+
+## Instructions
+
+1. **Analyze the changes**: Review the differences in the working directory to understand what changes are being committed.
+
+2. **Stage appropriate files**: Use `git add` to stage only related changes. You can stage specific files or use `git add -p` to interactively stage parts of files to create granular commits.
+
+3. **Determine the appropriate commit type**: Based on the Conventional Commits specification, determine if the changes represent a `feat`, `fix`, or another appropriate type. Consider if the changes include any breaking changes that need to be marked with `!` or a BREAKING CHANGE footer.
+
+4. **Write a concise, imperative commit message**: Craft a commit message following the Conventional Commits format with an appropriate type, optional scope, and descriptive summary. Keep the summary under 50 characters and use imperative mood.
+
+5. **Add a detailed body if needed**: If the change is complex, add a detailed explanatory text after a blank line, wrapping to about 72 characters.
+
+6. **Include footers for special cases**: Add footers for breaking changes, issue references (e.g., `Closes #123`), or other metadata as appropriate.
+
+7. **Execute the commit**: Run `git commit` with the prepared message, or use `git commit -m` for simple commits.
+
+## Examples of Proper Commit Messages
+
+### Simple feature addition
+
+```
+feat: add user authentication module
+```
+
+### Feature with scope
+
+```
+feat(api): add rate limiting to API endpoints
+```
+
+### Bug fix
+
+```
+fix: resolve null pointer exception in user profile
+```
+
+### Breaking change with exclamation mark
+
+```
+feat!: remove deprecated authentication API
+```
+
+### Breaking change with footer
+
+```
+feat: migrate to new authentication system
+
+BREAKING CHANGE: The old authentication API has been removed.
+Clients must upgrade to the new JWT-based system.
+```
+
+### Commit with detailed body
+
+```
+refactor: optimize database queries in user service
+
+Improve performance by replacing N+1 queries with eager loading.
+This reduces average response time from 1.2s to 0.3s.
+
+Closes #456
+```
