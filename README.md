@@ -4,7 +4,8 @@ A collection of agent skills for Git.
 
 ## Available Skills
 
-- **add-commit**: Perform git add and git commit operations with properly formatted commit messages following Conventional Commits specification. Use when you need to stage and commit changes to a Git repository with well-structured commit messages that communicate intent clearly.
+- **add-commit**: Stage and commit changes with Conventional Commits formatted messages.
+- **semver-tag**: Create Git tags that comply with Semantic Versioning specifications.
 
 ## Installation
 
