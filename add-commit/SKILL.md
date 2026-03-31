@@ -1,11 +1,14 @@
 ---
 name: add-commit
-description: Stage related changes and create a Conventional Commit message (type/scope/subject, optional body/footer) with safe checks before committing.
+description: Stage related changes and create a Conventional Commit message (type/scope/description, optional body/footer) with safe checks before committing.
 ---
 
 # add-commit
 
 Use this skill when you want to turn local changes into a clean, meaningful Git commit.
+
+> **Reference:** Full Conventional Commits 1.0.0 spec, examples, and type→SemVer table:
+> `references/conventional-commits.md` (source: https://www.conventionalcommits.org/en/v1.0.0/)
 
 ## What this skill does
 
@@ -27,7 +30,7 @@ Before committing, collect:
 ## Conventional Commit format
 
 ```text
-<type>[optional scope][!]: <subject>
+<type>[optional scope][!]: <description>
 
 [optional body]
 
@@ -37,9 +40,23 @@ Before committing, collect:
 Rules:
 
 - Use lowercase type (`feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `ci`, `build`, `perf`, `revert`).
-- Keep subject imperative and concise.
+- Keep description imperative and concise (immediately after `type[scope]: `).
 - Keep one commit per logical change.
-- Use `!` and/or `BREAKING CHANGE:` for incompatible behavior changes.
+- Use `!` and/or `BREAKING CHANGE:` footer for incompatible behavior changes — either works; both is most explicit.
+- Body starts one blank line after the description; footers start one blank line after the body.
+- Footer tokens use `-` for spaces (e.g., `Reviewed-by`, `Refs`); exception: `BREAKING CHANGE` is allowed as-is.
+- Footer values use `Token: value` or `Token #value` (for issue refs) format.
+
+### Type → SemVer impact
+
+| Type                      | SemVer bump |
+|---------------------------|-------------|
+| `fix`                     | PATCH        |
+| `feat`                    | MINOR        |
+| `BREAKING CHANGE` / `!`   | MAJOR        |
+| all others                | none (unless also breaking) |
+
+This matters when using tools like `semantic-release` or `release-please` to automate versioning.
 
 ## Suggested workflow
 
@@ -87,12 +104,30 @@ feat(auth): add token refresh endpoint
 Add refresh token validation and rotation to reduce session drop-offs.
 ```
 
-### Breaking change
+### Breaking change (via `!`)
+
+```text
+feat(api)!: remove v1 user payload fields
+```
+
+### Breaking change (via footer — both combined is most explicit)
 
 ```text
 feat(api)!: remove v1 user payload fields
 
 BREAKING CHANGE: `first_name` and `last_name` were replaced by `full_name`.
+```
+
+### With footers (issue reference + reviewer)
+
+```text
+fix: prevent racing of requests
+
+Introduce a request id and a reference to latest request. Dismiss
+incoming responses other than from latest request.
+
+Reviewed-by: Z
+Refs: #123
 ```
 
 ## Quality guardrails
