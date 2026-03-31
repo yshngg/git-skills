@@ -4,8 +4,8 @@ A collection of agent skills for Git.
 
 ## Available Skills
 
-- **add-commit**: Stage and commit changes with Conventional Commits formatted messages.
-- **semver-tag**: Create Git tags that comply with Semantic Versioning specifications.
+- **add-commit**: Stage related changes and create Conventional Commit messages with sanity checks for atomic, traceable commits.
+- **semver-tag**: Create and validate Semantic Versioning tags from release history, then annotate and push tags safely.
 
 ## Installation
 
